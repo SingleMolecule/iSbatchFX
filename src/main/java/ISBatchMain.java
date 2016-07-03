@@ -32,7 +32,7 @@ import org.scijava.plugin.Plugin;
  * 
  * @author Victor Caldas
  */
-@Plugin(type = Command.class, headless = true, menuPath = "Plugin>iSBatch")
+@Plugin(type = Command.class, headless = true, menuPath = "Plugins>iSBatch")
 public class ISBatchMain implements Command {
 
 	@Parameter(label = "Hello stranger, what can I do for ya?")
