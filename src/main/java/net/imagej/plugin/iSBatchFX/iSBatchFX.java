@@ -25,6 +25,7 @@ package net.imagej.plugin.iSBatchFX;
 
 import net.imagej.ImageJ;
 import net.imagej.plugin.iSBatchFX.gui.MainAppFrame;
+import net.imagej.plugin.iSBatchFX.gui.MainAppFrame2;
 
 import org.scijava.command.Command;
 import org.scijava.log.LogService;

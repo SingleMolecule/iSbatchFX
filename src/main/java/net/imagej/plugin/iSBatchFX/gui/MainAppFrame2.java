@@ -28,7 +28,11 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
+
 import javax.swing.JFrame;
 import net.imagej.ImageJ;
 import net.imagej.plugin.iSBatchFX.gui.view.RootLayoutController;
@@ -40,7 +44,7 @@ import org.scijava.plugin.Parameter;
  *
  * @author Hadrien Mary
  */
-public class MainAppFrame extends JFrame {
+public class MainAppFrame2 extends JFrame {
 
     /**
 	 * 
@@ -54,7 +58,7 @@ public class MainAppFrame extends JFrame {
 
     private JFXPanel fxPanel;
 
-    public MainAppFrame(ImageJ ij) {
+    public MainAppFrame2(ImageJ ij) {
         ij.context().inject(this);
         this.ij = ij;
     }
@@ -78,27 +82,20 @@ public class MainAppFrame extends JFrame {
     }
 
     public void initFX(JFXPanel fxPanel) {
-        // Init the root layout
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainAppFrame.class.getResource("/net/imagej/plugin/iSBatchFX/gui/view/RootLayout.fxml"));
-            TilePane rootLayout = (TilePane) loader.load();
+    	Stage window = null;
+        Button button;
+        
+       
+        window.setTitle("thenewboston");
+        button = new Button("Click Me");
 
-            // Get the controller and add an ImageJ context to it.
-            RootLayoutController controller = loader.getController();
-            controller.setContext(ij.context());
+        button.setOnAction(e -> AlertBox.display("Title of Window", "Wow this alert box is awesome!"));
 
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            this.fxPanel.setScene(scene);
-            this.fxPanel.show();
-
-            // Resize the JFrame to the JavaFX scene
-            this.setSize((int) scene.getWidth(), (int) scene.getHeight());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        StackPane layout = new StackPane();
+        layout.getChildren().add(button);
+        Scene scene = new Scene(layout, 300, 250);
+        window.setScene(scene);
+        window.show();
     }
 
 }
