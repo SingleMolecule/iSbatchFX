@@ -29,7 +29,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
 import javax.swing.JFrame;
 import net.imagej.ImageJ;
 import net.imagej.plugin.iSBatchFX.gui.view.RootLayoutController;
