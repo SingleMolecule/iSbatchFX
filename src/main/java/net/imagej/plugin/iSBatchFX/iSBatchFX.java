@@ -24,14 +24,14 @@
 package net.imagej.plugin.iSBatchFX;
 
 import net.imagej.ImageJ;
-import net.imagej.plugin.iSBatchFX.gui.MainAppFrame;
 
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
-@Plugin(type = Command.class, menuPath = "Plugins>iSBatch DEv")
+@Plugin(type = Command.class, menuPath = "Plugins>MVC Dev")
+
 public class iSBatchFX implements Command {
 
     @Parameter
@@ -42,7 +42,7 @@ public class iSBatchFX implements Command {
 
     public static final String PLUGIN_NAME = "iSBatchFX";
     public static final String VERSION = version();
-
+    
     private static String version() {
         String version = null;
         final Package pack = iSBatchFX.class.getPackage();
@@ -55,12 +55,13 @@ public class iSBatchFX implements Command {
     @Override
     public void run() {
 
-        log.info("Running " + PLUGIN_NAME + " version " + VERSION);
+      //  log.info("Running " + PLUGIN_NAME + " version " + VERSION);
                
         // Launch JavaFX interface
         MainAppFrame app = new MainAppFrame(ij);
         app.setTitle(PLUGIN_NAME + " version " + VERSION);
         app.init();
+        
         
     }
 

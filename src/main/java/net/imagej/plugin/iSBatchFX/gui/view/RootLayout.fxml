@@ -51,7 +51,7 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TreeView editable="true" VBox.vgrow="ALWAYS">
+            <TreeView id="treeview" editable="true" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin></TreeView>

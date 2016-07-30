@@ -8,7 +8,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AlertBox {
+	
+	public AlertBox(String title, String message){
+		display(title,message);
+	}
 
+	public AlertBox(){
+		
+	};
+	
+	
 	public static void display(String title, String message){
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -18,7 +27,7 @@ public class AlertBox {
 		Label label = new Label();
 		label.setText(message);
 		
-		Button buttom = new Button();
+		Button buttom = new Button("Dismiss");
 		
 		buttom.setOnAction(e -> window.close());
 		

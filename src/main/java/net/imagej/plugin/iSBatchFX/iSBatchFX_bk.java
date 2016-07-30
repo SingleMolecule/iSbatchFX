@@ -21,51 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.imagej.plugin.iSBatchFX.gui.view;
+package net.imagej.plugin.iSBatchFX;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+import net.imagej.ImageJ;
 
-import org.scijava.Context;
+import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
-/**
- * FXML Controller class
- *
- * @author Hadrien Mary
- */
-public class RootLayoutController implements Initializable {
+@Plugin(type = Command.class, menuPath = "Plugins>iSBatch Dev")
+public class iSBatchFX_bk implements Command {
+
+    @Parameter
+    private ImageJ ij;
 
     @Parameter
     private LogService log;
-    
-    
-    @FXML
-    private Label testLabel;
 
-    @FXML
-    private TextField testField;
+    public static final String PLUGIN_NAME = "iSBatchFX";
+    public static final String VERSION = version();
 
-    @FXML
-    private Button testButton;
-    
-
+    private static String version() {
+        String version = null;
+        final Package pack = iSBatchFX_bk.class.getPackage();
+        if (pack != null) {
+            version = pack.getImplementationVersion();
+        }
+        return version == null ? "DEVELOPMENT" : version;
+    }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    
+    public void run() {
+
+        log.info("Running " + PLUGIN_NAME + " version " + VERSION);
+               
+        // Launch JavaFX interface
+        MainAppFrame app = new MainAppFrame(ij);
+        app.setTitle(PLUGIN_NAME + " version " + VERSION);
+        app.init();
+        
     }
 
-    public void setContext(Context context) {
-        context.inject(this);
-    }
+    public static void main(final String... args) throws Exception {
+        // Launch ImageJ as usual.
+        final ImageJ ij = net.imagej.Main.launch(args);
 
+        // Launch the command.
+        ij.command().run(iSBatchFX_bk.class, true);
+    }
 }
