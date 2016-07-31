@@ -5,13 +5,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.imagej.plugin.iSBatchFX.view.RootLayoutController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="menuload" mnemonicParsing="false" onAction="#handleNew" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
+                  <MenuItem fx:id="menuload1" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                  <MenuItem fx:id="menuload2" mnemonicParsing="false" onAction="#handleSaveAs" text="Save as" />
+                  <MenuItem fx:id="menuload3" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

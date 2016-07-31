@@ -1,6 +1,26 @@
+/*******************************************************************************
+ * 	This file is part of iSBatchFX.
+ *
+ *     IiSBatchFX is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     iSBatchFX is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with iSBatchFX.  If not, see <http://www.gnu.org/licenses/>. 
+ *     
+ *      Copyright 2015,2016 Victor Caldaas
+ *******************************************************************************/
 package net.imagej.plugin.iSBatchFX.model;
 
 import java.time.LocalDate;
+
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -8,6 +28,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import net.imagej.plugin.iSBatchFX.util.LocalDateAdapter;
 
 /**
  * Model class for a Person.
@@ -107,9 +128,7 @@ public class Person {
         return city;
     }
 
-    public LocalDate getBirthday() {
-        return birthday.get();
-    }
+
 
     public void setBirthday(LocalDate birthday) {
         this.birthday.set(birthday);
@@ -117,5 +136,10 @@ public class Person {
 
     public ObjectProperty<LocalDate> birthdayProperty() {
         return birthday;
+    }
+    
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    public LocalDate getBirthday() {
+        return birthday.get();
     }
 }

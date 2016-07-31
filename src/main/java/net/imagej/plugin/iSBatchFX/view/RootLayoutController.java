@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * 	This file is part of iSBatchFX.
+ *
+ *     IiSBatchFX is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     iSBatchFX is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with iSBatchFX.  If not, see <http://www.gnu.org/licenses/>. 
+ *     
+ *      Copyright 2015,2016 Victor Caldaas
+ *******************************************************************************/
 package net.imagej.plugin.iSBatchFX.view;
 
 import java.io.File;
@@ -6,27 +24,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
+import net.imagej.plugin.iSBatchFX.MainApp;
 import net.imagej.plugin.iSBatchFX.MainAppFrame;
 
-/**
- * The controller for the root layout. The root layout provides the basic
- * application layout containing a menu bar and space where other JavaFX
- * elements can be placed.
- * 
- * @author Marco Jakob
- */
 public class RootLayoutController {
 
     // Reference to the main application
-    private MainAppFrame mainApp;
+    private MainAppFrame mainAppFrame;
+    private MainApp mainApp;
 
     /**
      * Is called by the main application to give a reference back to itself.
      * 
-     * @param mainApp
+     * @param mainApp2
      */
-    public void setMainApp(MainAppFrame mainApp) {
-        this.mainApp = mainApp;
+    public void setMainApp(MainApp mainApp2) {
+        this.mainApp = mainApp2;
     }
 
     /**
@@ -34,8 +47,8 @@ public class RootLayoutController {
      */
     @FXML
     private void handleNew() {
-        mainApp.getPersonData().clear();
-        mainApp.setPersonFilePath(null);
+        mainAppFrame.getPersonData().clear();
+        mainAppFrame.setPersonFilePath(null);
     }
 
     /**
@@ -50,12 +63,12 @@ public class RootLayoutController {
                 "XML files (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(extFilter);
 
-//        // Show save file dialog
-//        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-//
-//        if (file != null) {
-//            mainApp.loadPersonDataFromFile(file);
-//        }
+        // Show save file dialog
+        File file = fileChooser.showOpenDialog(mainAppFrame.getPrimaryStage());
+
+        if (file != null) {
+            mainAppFrame.loadPersonDataFromFile(file);
+        }
     }
 
     /**
@@ -64,14 +77,23 @@ public class RootLayoutController {
      */
     @FXML
     private void handleSave() {
-        File personFile = mainApp.getPersonFilePath();
+        File personFile = mainAppFrame.getPersonFilePath();
         if (personFile != null) {
-            mainApp.savePersonDataToFile(personFile);
+        	mainAppFrame.savePersonDataToFile(personFile);
         } else {
             handleSaveAs();
         }
     }
+    
+    
+    @FXML
+    /**
+     * Load data into MainAppFrame
+     */
 
+    private void handeLoadData(){
+    	mainAppFrame.showPersonOverview();
+    }
     /**
      * Opens a FileChooser to let the user select a file to save to.
      */
@@ -86,15 +108,15 @@ public class RootLayoutController {
 
         // Show save file dialog
         //TODO: Fix this stage problem
-//        File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
-//
-//        if (file != null) {
-//            // Make sure it has the correct extension
-//            if (!file.getPath().endsWith(".xml")) {
-//                file = new File(file.getPath() + ".xml");
-//            }
-//            mainApp.savePersonDataToFile(file);
-//        }
+        File file = fileChooser.showSaveDialog(mainAppFrame.getPrimaryStage());
+
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".xml")) {
+                file = new File(file.getPath() + ".xml");
+            }
+            mainAppFrame.savePersonDataToFile(file);
+        }
     }
 
     /**
@@ -117,4 +139,9 @@ public class RootLayoutController {
     private void handleExit() {
         System.exit(0);
     }
+
+	public void setMainAppFrame(MainAppFrame mainAppFrame) {
+		this.mainAppFrame = mainAppFrame;
+		
+	}
 }

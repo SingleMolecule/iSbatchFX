@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * 	This file is part of iSBatchFX.
+ *
+ *     IiSBatchFX is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     iSBatchFX is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with iSBatchFX.  If not, see <http://www.gnu.org/licenses/>. 
+ *     
+ *      Copyright 2015,2016 Victor Caldaas
+ *******************************************************************************/
 package net.imagej.plugin.iSBatchFX.view;
 
 import org.scijava.Context;
@@ -8,9 +26,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import net.imagej.plugin.iSBatchFX.MainApp;
 import net.imagej.plugin.iSBatchFX.MainAppFrame;
-import net.imagej.plugin.iSBatchFX.gui.AlertBox;
 import net.imagej.plugin.iSBatchFX.model.Person;
+import net.imagej.plugin.iSBatchFX.util.AlertBox;
 import net.imagej.plugin.iSBatchFX.util.DateUtil;
 
 public class PersonOverviewController {
@@ -36,6 +55,7 @@ public class PersonOverviewController {
 
     // Reference to the main application.
     private MainAppFrame mainAppFrame;
+    private MainApp mainApp;
 
     /**
      * The constructor.
@@ -73,6 +93,20 @@ public class PersonOverviewController {
         // Add observable list data to the table
         personTable.setItems(mainAppFrame.getPersonData());
     }
+    
+    /**
+     * Is called by the main application to give a reference back to itself.
+     * 
+     * @param mainApp
+     */
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+
+        // Add observable list data to the table
+        personTable.setItems(mainAppFrame.getPersonData());
+    }
+    
+    
     
     /**
      * Fills all text fields to show details about the person.
@@ -130,6 +164,7 @@ public class PersonOverviewController {
         }
     }
 
+    
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected person.

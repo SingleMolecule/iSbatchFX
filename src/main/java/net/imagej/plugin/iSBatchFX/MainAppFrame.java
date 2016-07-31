@@ -1,26 +1,22 @@
-/*
- * The MIT License
+/*******************************************************************************
+ * 	This file is part of iSBatchFX.
  *
- * Copyright 2016 Fiji.
+ *     IiSBatchFX is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *     iSBatchFX is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+ *     You should have received a copy of the GNU General Public License
+ *     along with iSBatchFX.  If not, see <http://www.gnu.org/licenses/>. 
+ *     
+ *      Copyright 2015,2016 Victor Caldas
+ *******************************************************************************/
+
 package net.imagej.plugin.iSBatchFX;
 
 import java.io.File;
@@ -46,25 +42,23 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import net.imagej.ImageJ;
-import net.imagej.plugin.iSBatchFX.gui.view.RootLayoutController;
 import net.imagej.plugin.iSBatchFX.model.Person;
 import net.imagej.plugin.iSBatchFX.model.PersonListWrapper;
 import net.imagej.plugin.iSBatchFX.view.PersonEditDialogController;
 import net.imagej.plugin.iSBatchFX.view.PersonOverviewController;
+import net.imagej.plugin.iSBatchFX.view.RootLayoutController;
 
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
-import javafx.scene.image.Image;
 
 public class MainAppFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	@Parameter
+	//private MainApp mainApp;
     private LogService log;
-
-    private ImageJ ij;
-
+	private ImageJ ij;
     private JFXPanel fxPanel;
     private BorderPane rootLayout;
     private Stage primaryStage;
@@ -83,9 +77,14 @@ public class MainAppFrame extends JFrame {
     
    
     public MainAppFrame(ImageJ ij) {
-        ij.context().inject(this);
-        this.ij = ij;
-        // Add some sample data - Now as part of the constructor. 
+    	//MainApp mainApp = new MainApp();
+    	//this.mainApp = mainApp;
+    	ij.context().inject(this);
+    	fillData();
+    }
+       
+    private void fillData() {
+    	// Add some sample data
         personData.add(new Person("Hans", "Muster"));
         personData.add(new Person("Ruth", "Mueller"));
         personData.add(new Person("Heinz", "Kurz"));
@@ -95,12 +94,10 @@ public class MainAppFrame extends JFrame {
         personData.add(new Person("Anna", "Best"));
         personData.add(new Person("Stefan", "Meier"));
         personData.add(new Person("Martin", "Mueller"));
-    }
-    
-    
-    
-    
-    /**
+		
+	}
+
+	/**
      * Create the JFXPanel that make the link between Swing (IJ) and JavaFX plugin.
      */
     public void init() {
@@ -115,35 +112,35 @@ public class MainAppFrame extends JFrame {
             public void run() {
                 initFX(fxPanel);
                 showPersonOverview();
-            }
+           }
         });
 
     }
 
-    public void initFX(JFXPanel fxPanel) {
+	@SuppressWarnings("deprecation")
+	public void initFX(JFXPanel fxPanel) {
         // Init the root layout
-        try {
-        	 // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(iSBatchFXStandalone.class.getResource("view/RootLayout.fxml"));
-            rootLayout = (BorderPane) loader.load();
+		try {
+       	 // Load root layout from fxml file.
+           FXMLLoader loader = new FXMLLoader();
+           loader.setLocation(getClass().getResource("view/RootLayout.fxml"));
+           rootLayout = (BorderPane) loader.load();
+           
+           // Give the controller access to the main app.
+           RootLayoutController controller = loader.getController();
+           controller.setMainAppFrame(this);
+                 
+           // Show the scene containing the root layout.
+           Scene scene = new Scene(rootLayout);
+           this.fxPanel.setScene(scene);
+           this.fxPanel.show();
 
-            // Get the controller and add an ImageJ context to it.
-            // Give the controller access to the main app.
-           // PersonOverviewController controller = loader.getController();
-           //controller.setContext(ij.context(), this);
-            
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            this.fxPanel.setScene(scene);
-            this.fxPanel.show();
+           // Resize the JFrame to the JavaFX scene
+           this.setSize((int) scene.getWidth(), (int) scene.getHeight());
 
-            // Resize the JFrame to the JavaFX scene
-            this.setSize((int) scene.getWidth(), (int) scene.getHeight());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       } catch (IOException e) {
+           e.printStackTrace();
+}				
     }
     
     /**
@@ -153,7 +150,7 @@ public class MainAppFrame extends JFrame {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(iSBatchFXStandalone.class.getResource("view/PersonOverview.fxml"));
+            loader.setLocation(getClass().getResource("view/PersonOverview.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
 
          // Set person overview into the center of root layout.
@@ -207,6 +204,13 @@ public class MainAppFrame extends JFrame {
     }
 
     /**
+     * Returns the main stage.
+     * @return
+     */
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+    /**
      * Returns the person file preference, i.e. the file that was last opened.
      * The preference is read from the OS specific registry. If no such
      * preference can be found, null is returned.
@@ -235,12 +239,12 @@ public class MainAppFrame extends JFrame {
             prefs.put("filePath", file.getPath());
 
             // Update the stage title.
-            primaryStage.setTitle("AddressApp - " + file.getName());
+            this.setTitle("AddressApp - " + file.getName());
         } else {
             prefs.remove("filePath");
 
             // Update the stage title.
-            primaryStage.setTitle("AddressApp");
+            this.setTitle("AddressApp");
         }
     }
     
