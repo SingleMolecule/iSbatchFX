@@ -26,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import net.imagej.plugin.iSBatchFX.MainApp;
 import net.imagej.plugin.iSBatchFX.MainAppFrame;
+import net.imagej.plugin.iSBatchFX.util.AboutPane;
 
 public class RootLayoutController {
 
@@ -124,12 +125,8 @@ public class RootLayoutController {
      */
     @FXML
     private void handleAbout() {
-    	Alert alert = new Alert(AlertType.INFORMATION);
-    	alert.setTitle("AddressApp");
-    	alert.setHeaderText("About");
-    	alert.setContentText("Author: Marco Jakob\nWebsite: http://code.makery.ch");
 
-    	alert.showAndWait();
+    	AboutPane.display();
     }
 
     /**

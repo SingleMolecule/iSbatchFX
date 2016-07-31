@@ -18,14 +18,17 @@
                   <MenuItem fx:id="menuload3" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Properties">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
+                  <MenuItem mnemonicParsing="false" text="Manual" />
+                  <MenuItem mnemonicParsing="false" text="Report bug" />
+                  <MenuItem mnemonicParsing="false" text="Website" />
             </items>
           </Menu>
         </menus>
