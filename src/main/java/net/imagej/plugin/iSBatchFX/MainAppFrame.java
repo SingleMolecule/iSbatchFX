@@ -47,6 +47,7 @@ import net.imagej.plugin.iSBatchFX.model.PersonListWrapper;
 import net.imagej.plugin.iSBatchFX.view.PersonEditDialogController;
 import net.imagej.plugin.iSBatchFX.view.PersonOverviewController;
 import net.imagej.plugin.iSBatchFX.view.RootLayoutController;
+import net.imagej.plugin.iSBatchFX.view.TreeViewController;
 
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
@@ -80,22 +81,12 @@ public class MainAppFrame extends JFrame {
     	//MainApp mainApp = new MainApp();
     	//this.mainApp = mainApp;
     	ij.context().inject(this);
-    	fillData();
+    	//Start empty
+    	this.getPersonData().clear();
+           this.setPersonFilePath(null);
     }
        
-    private void fillData() {
-    	// Add some sample data
-        personData.add(new Person("Hans", "Muster"));
-        personData.add(new Person("Ruth", "Mueller"));
-        personData.add(new Person("Heinz", "Kurz"));
-        personData.add(new Person("Cornelia", "Meier"));
-        personData.add(new Person("Werner", "Meyer"));
-        personData.add(new Person("Lydia", "Kunz"));
-        personData.add(new Person("Anna", "Best"));
-        personData.add(new Person("Stefan", "Meier"));
-        personData.add(new Person("Martin", "Mueller"));
-		
-	}
+
 
 	/**
      * Create the JFXPanel that make the link between Swing (IJ) and JavaFX plugin.
@@ -112,6 +103,7 @@ public class MainAppFrame extends JFrame {
             public void run() {
                 initFX(fxPanel);
                 showPersonOverview();
+                showTreeView();
            }
         });
 
@@ -159,6 +151,29 @@ public class MainAppFrame extends JFrame {
          // Give the controller access to the main app.
             PersonOverviewController controller = loader.getController();
             controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * Shows the person overview inside the root layout.
+     */
+    public void showTreeView() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("view/TreeView.fxml"));
+            AnchorPane treeView = (AnchorPane) loader.load();
+
+         // Set person overview into the center of root layout.
+            rootLayout.setLeft(treeView);
+            
+         // Give the controller access to the main app.
+            TreeViewController treeController = loader.getController();
+            treeController.setMainAppFrame(this);
 
         } catch (IOException e) {
             e.printStackTrace();
